@@ -28,7 +28,7 @@ conn = sqlite3.connect(args.path)
 c = conn.cursor()
 # for host with a link in links database (host has an account with admin), mark as owned.
 for host in c.execute('SELECT DISTINCT hostname FROM hosts WHERE id IN (SELECT hostid FROM links);'):
-    statement = "MATCH (n) WHERE n.name =~ '(?i)^{}\..*$' SET n.owned=true RETURN n".format(host[0])
+    statement = "MATCH (n) WHERE n.name =~ '(?i)^{}\\\\..*$' SET n.owned=true RETURN n".format(host[0])
     runcypher(args.server,statement,auth)
     print('marked computer: {} owned'.format(host[0]))
 # for username in credentials database, mark as owned.
